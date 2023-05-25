@@ -2,8 +2,9 @@ defmodule ExFfmpegGuide.Transcoder.HlsVariant do
   use Construct do
     field :index, :integer
     field :name, :string, enforce: true
-    field :passthrough, :boolean, default: false
+    field :video_passthrough, :boolean, default: false
     field :video_bitrate, :float, enforce: true
+    field :audio_passthrough, :boolean, default: false
     field :framerate, :integer, enforce: true
     field :video_size do
       field :width, :integer, enforce: true
