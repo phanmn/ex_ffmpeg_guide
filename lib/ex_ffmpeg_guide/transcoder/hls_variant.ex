@@ -5,7 +5,9 @@ defmodule ExFfmpegGuide.Transcoder.HlsVariant do
     field :video_passthrough, :boolean, default: false
     field :video_bitrate, :float, enforce: true
     field :audio_passthrough, :boolean, default: false
+    field :audio_bitrate, :float, enforce: true
     field :framerate, :integer, enforce: true
+    field :cpu_usage_level, :integer, enforce: true
     field :video_size do
       field :width, :integer, enforce: true
       field :height, :integer, enforce: true
