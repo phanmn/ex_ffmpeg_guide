@@ -1,7 +1,7 @@
 defmodule ExFfmpegGuide.Transcoder do
-  alias ExFfmpegGuide.Transcoder
+  alias ExFfmpegGuide.Transcoder.Output
 
   use Construct do
-    field(:hls, [Transcoder.Hls], default: nil)
+    field(:outputs, [Output], default: nil)
   end
 end

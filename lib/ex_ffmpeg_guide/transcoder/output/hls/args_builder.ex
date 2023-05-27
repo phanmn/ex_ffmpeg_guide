@@ -1,7 +1,7 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilder do
-  alias ExFfmpegGuide.Transcoder.Hls
-  alias ExFfmpegGuide.Transcoder.Hls.Codec
-  alias ExFfmpegGuide.Transcoder.Hls.Variant
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
+  alias ExFfmpegGuide.Transcoder.Output.Hls
+  alias ExFfmpegGuide.Transcoder.Output.Hls.Codec
+  alias ExFfmpegGuide.Transcoder.Output.Hls.Variant
 
   def build(hls = %Hls{variants: variants, codec: codec}) do
     variants

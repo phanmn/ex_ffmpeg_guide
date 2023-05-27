@@ -1,10 +1,10 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.Codec.Libx264 do
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.Codec.Libx264 do
   use Construct do
   end
 end
 
-defimpl ExFfmpegGuide.Transcoder.Hls.Codec, for: ExFfmpegGuide.Transcoder.Hls.Codec.Libx264 do
-  alias ExFfmpegGuide.Transcoder.Hls.Variant
+defimpl ExFfmpegGuide.Transcoder.Output.Hls.Codec, for: ExFfmpegGuide.Transcoder.Output.Hls.Codec.Libx264 do
+  alias ExFfmpegGuide.Transcoder.Output.Hls.Variant
   def name(_), do: "libx264"
 
   def variant_flags(_codec, variant = %Variant{index: index}) do

@@ -1,8 +1,8 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilderTest do
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilderTest do
   use ExUnit.Case
   require Logger
   alias ExFfmpegGuide.Transcoder
-  alias ExFfmpegGuide.Transcoder.Hls
+  alias ExFfmpegGuide.Transcoder.Output.Hls
 
   test "empty" do
     assert [
@@ -26,7 +26,7 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilderTest do
                latency_level: Hls.LatencyLevel.list() |> Enum.at(0),
                output: "live/%v/stream.m3u8"
              }
-             |> Hls.FlagsBuilder.build()
+             |> Hls.ArgsBuilder.build()
   end
 
   test "1" do
@@ -77,7 +77,7 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilderTest do
                latency_level: Hls.LatencyLevel.list() |> Enum.at(0),
                output: "live/%v/stream.m3u8"
              }
-             |> Hls.FlagsBuilder.build()
+             |> Hls.ArgsBuilder.build()
              |> tap(fn flags ->
                flags
                |> Enum.map(fn {key, value} ->

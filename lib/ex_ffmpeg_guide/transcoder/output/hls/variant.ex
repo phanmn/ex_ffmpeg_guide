@@ -1,4 +1,4 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.Variant do
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.Variant do
   use Construct do
     field :index, :integer, default: nil
     field :name, :string

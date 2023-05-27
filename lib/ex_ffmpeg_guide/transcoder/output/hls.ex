@@ -1,5 +1,5 @@
-defmodule ExFfmpegGuide.Transcoder.Hls do
-  alias ExFfmpegGuide.Transcoder.Hls
+defmodule ExFfmpegGuide.Transcoder.Output.Hls do
+  alias ExFfmpegGuide.Transcoder.Output.Hls
 
   use Construct do
     field(:variants, [Hls.Variant], default: [])
@@ -12,5 +12,14 @@ defmodule ExFfmpegGuide.Transcoder.Hls do
     field(:flags, [:string],
       default: ["delete_segments", "independent_segments", "program_date_time"]
     )
+  end
+end
+
+defimpl ExFfmpegGuide.Transcoder.Output, for: ExFfmpegGuide.Transcoder.Output.Hls do
+  alias ExFfmpegGuide.Transcoder.Output.Hls
+
+  def to_args(hls) do
+    hls
+    |> Hls.ArgsBuilder.build()
   end
 end

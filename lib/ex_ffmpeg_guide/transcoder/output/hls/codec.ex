@@ -1,5 +1,5 @@
-defprotocol ExFfmpegGuide.Transcoder.Hls.Codec do
-  alias ExFfmpegGuide.Transcoder.Hls
+defprotocol ExFfmpegGuide.Transcoder.Output.Hls.Codec do
+  alias ExFfmpegGuide.Transcoder.Output.Hls
 
   use Construct do
   end

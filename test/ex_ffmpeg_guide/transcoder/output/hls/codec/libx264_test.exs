@@ -1,6 +1,6 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.Codec.Libx264Test do
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.Codec.Libx264Test do
   use ExUnit.Case
-  alias ExFfmpegGuide.Transcoder.Hls.Codec
+  alias ExFfmpegGuide.Transcoder.Output.Hls.Codec
   doctest Codec.Libx264
 
   @codec %Codec.Libx264{}

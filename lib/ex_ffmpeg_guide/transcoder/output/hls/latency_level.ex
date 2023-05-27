@@ -1,4 +1,4 @@
-defmodule ExFfmpegGuide.Transcoder.Hls.LatencyLevel do
+defmodule ExFfmpegGuide.Transcoder.Output.Hls.LatencyLevel do
   use Construct do
     field :level, :integer
     field :seconds_per_segment, :integer, enforce: true
