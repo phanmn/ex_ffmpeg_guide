@@ -91,7 +91,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
          },
          %Transcoder{codec: codec}
        )
-       when video_passthrough == false or (video_width == 0 and video_height == 0) do
+       when video_passthrough == true or (video_width == 0 and video_height == 0) do
     codec
     |> Codec.extra_filters()
     |> case do
