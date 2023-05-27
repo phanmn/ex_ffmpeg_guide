@@ -18,8 +18,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
     |> then(fn {flags, maps} ->
       maps = maps |> Enum.reverse() |> Enum.join(" ")
 
-      [{"var_stream_map", maps} | flags]
-      |> Enum.reverse()
+      flags ++ [{"var_stream_map", "\"#{maps}\""}]
     end)
   end
 
