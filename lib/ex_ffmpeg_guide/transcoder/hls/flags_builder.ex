@@ -1,16 +1,16 @@
-defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
-  alias ExFfmpegGuide.Transcoder
-  alias ExFfmpegGuide.Transcoder.Codec
-  alias ExFfmpegGuide.Transcoder.HlsVariant
+defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilder do
+  alias ExFfmpegGuide.Transcoder.Hls
+  alias ExFfmpegGuide.Transcoder.Hls.Codec
+  alias ExFfmpegGuide.Transcoder.Hls.Variant
 
-  def build(transcoder = %Transcoder{hls_variants: variants}) do
+  def build(hls = %Hls{variants: variants}) do
     variants
     |> Enum.with_index()
     |> Enum.map(fn {variant, index} ->
       %{variant | index: index}
     end)
     |> Enum.reduce({[], []}, fn variant, {flags, maps} ->
-      flags = variant_flags(variant, transcoder) ++ flags
+      flags = variant_flags(variant, hls) ++ flags
       maps = ["v:#{variant.index},a:#{variant.index},name:#{variant.name}" | maps]
 
       {flags, maps}
@@ -23,25 +23,25 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
   end
 
   defp variant_flags(
-         variant = %HlsVariant{},
-         transcoder = %Transcoder{codec: codec}
+         variant = %Variant{},
+         hls = %Hls{codec: codec}
        ) do
-    video_quality_flags(variant, transcoder)
-    |> Kernel.++(audio_quality_flags(variant, transcoder))
-    |> Kernel.++(video_filter_flags(variant, transcoder))
+    video_quality_flags(variant, hls)
+    |> Kernel.++(audio_quality_flags(variant, hls))
+    |> Kernel.++(video_filter_flags(variant, hls))
     |> Kernel.++([
       {"preset", codec |> Codec.preset_for_cpu_level(variant.cpu_usage_level)}
     ])
   end
 
-  defp audio_quality_flags(%HlsVariant{index: index, audio_passthrough: true}, _) do
+  defp audio_quality_flags(%Variant{index: index, audio_passthrough: true}, _) do
     [
       {"map", "a:0?"},
       {"c:a:#{index}", "copy"}
     ]
   end
 
-  defp audio_quality_flags(variant = %HlsVariant{index: index}, _) do
+  defp audio_quality_flags(variant = %Variant{index: index}, _) do
     # libfdk_aac is not a part of every ffmpeg install, so use "aac" instead
     encoder_codec = "aac"
 
@@ -52,7 +52,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
     ]
   end
 
-  defp video_quality_flags(%HlsVariant{index: index, video_passthrough: true}, _) do
+  defp video_quality_flags(%Variant{index: index, video_passthrough: true}, _) do
     [
       {"map", "v:0"},
       {"c:v:#{index}", "copy"}
@@ -60,19 +60,19 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
   end
 
   defp video_quality_flags(
-         variant = %HlsVariant{index: index},
-         transcoder = %Transcoder{codec: codec}
+         variant = %Variant{index: index},
+         hls = %Hls{codec: codec}
        ) do
-    gop = variant.framerate * transcoder.latency_level.seconds_per_segment
+    gop = variant.framerate * hls.latency_level.seconds_per_segment
 
     [
       {"map", "v:0"},
       # Video codec used for this variant
       {"c:v:#{index}", codec |> Codec.name()},
       # The average bitrate for this variant allowing space for audio
-      {"b:v:#{index}", "#{variant |> HlsVariant.allocated_video_bitrate()}k"},
+      {"b:v:#{index}", "#{variant |> Variant.allocated_video_bitrate()}k"},
       # The max bitrate allowed for this variant
-      {"maxrate:v:#{index}", "#{variant |> HlsVariant.max_video_bitrate()}k"},
+      {"maxrate:v:#{index}", "#{variant |> Variant.max_video_bitrate()}k"},
       # Suggested interval where i-frames are encoded into the segments
       {"g:v:#{index}", gop},
       # minimum i-keyframe interval
@@ -83,12 +83,12 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
   end
 
   defp video_filter_flags(
-         %HlsVariant{
+         %Variant{
            index: index,
            video_size: %{width: video_width, height: video_height},
            video_passthrough: video_passthrough
          },
-         %Transcoder{codec: codec}
+         %Hls{codec: codec}
        )
        when video_passthrough == true or (video_width == 0 and video_height == 0) do
     codec
@@ -104,7 +104,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
     end
   end
 
-  defp video_filter_flags(%HlsVariant{index: index, video_size: video_size}, %Transcoder{
+  defp video_filter_flags(%Variant{index: index, video_size: video_size}, %Hls{
          codec: codec
        }) do
     filters =

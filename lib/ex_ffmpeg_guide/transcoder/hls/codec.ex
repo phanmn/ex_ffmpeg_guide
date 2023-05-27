@@ -1,4 +1,4 @@
-defprotocol ExFfmpegGuide.Transcoder.Codec do
+defprotocol ExFfmpegGuide.Transcoder.Hls.Codec do
   use Construct do
   end
   @doc """

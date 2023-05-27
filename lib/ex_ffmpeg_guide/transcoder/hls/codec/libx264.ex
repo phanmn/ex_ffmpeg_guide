@@ -1,17 +1,17 @@
-defmodule ExFfmpegGuide.Transcoder.Codec.Libx264 do
+defmodule ExFfmpegGuide.Transcoder.Hls.Codec.Libx264 do
   use Construct do
   end
 end
 
-defimpl ExFfmpegGuide.Transcoder.Codec, for: ExFfmpegGuide.Transcoder.Codec.Libx264 do
-  alias ExFfmpegGuide.Transcoder.HlsVariant
+defimpl ExFfmpegGuide.Transcoder.Hls.Codec, for: ExFfmpegGuide.Transcoder.Hls.Codec.Libx264 do
+  alias ExFfmpegGuide.Transcoder.Hls.Variant
   def name(_), do: "libx264"
 
-  def variant_flags(_codec, variant = %HlsVariant{index: index}) do
+  def variant_flags(_codec, variant = %Variant{index: index}) do
     [
       # How often the encoder checks the bitrate in order to meet average/max values
       {"x264-params:v:#{index}", "\"scenecut=0:open_gop=0\""},
-      {"bufsize:v:#{index}", variant |> HlsVariant.buffer_size()},
+      {"bufsize:v:#{index}", variant |> Variant.buffer_size()},
       {"profile:v:#{index}", "high"}
     ]
   end
