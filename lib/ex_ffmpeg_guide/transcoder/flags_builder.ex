@@ -11,7 +11,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
     end)
     |> Enum.reduce({[], []}, fn variant, {flags, maps} ->
       flags = variant_flags(variant, transcoder) ++ flags
-      maps = ["v:#{variant.index},a:#{variant.index}" | maps]
+      maps = ["v:#{variant.index},a:#{variant.index},name:#{variant.name}" | maps]
 
       {flags, maps}
     end)
