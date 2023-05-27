@@ -3,7 +3,7 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilder do
   alias ExFfmpegGuide.Transcoder.Hls.Codec
   alias ExFfmpegGuide.Transcoder.Hls.Variant
 
-  def build(hls = %Hls{variants: variants}) do
+  def build(hls = %Hls{variants: variants, codec: codec}) do
     variants
     |> Enum.with_index()
     |> Enum.map(fn {variant, index} ->
@@ -18,7 +18,26 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilder do
     |> then(fn {flags, maps} ->
       maps = maps |> Enum.reverse() |> Enum.join(" ")
 
-      flags ++ [{"var_stream_map", "\"#{maps}\""}]
+      flags
+      |> Kernel.++([
+        {"var_stream_map", "\"#{maps}\""}
+      ])
+      |> Kernel.++([
+        {"f", "hls"},
+        {"hls_time", hls.latency_level.seconds_per_segment},
+        {"hls_list_size", hls.latency_level.segment_count},
+        {"hls_delete_threshold", hls.latency_level.segment_count * 2},
+        {"hls_flags", hls.flags |> Enum.join("+")},
+        {"hls_segment_filename", hls.segment_name},
+        {"segment_format_options", "mpegts_flags=mpegts_copyts=1"}
+      ])
+      |> Kernel.++(codec |> Codec.extra_arguments())
+      |> Kernel.++([
+        {"pix_fmt", codec |> Codec.pixel_format()},
+        {"sc_threshold", 0},
+        {"master_pl_name", hls.master_pl_name},
+        {"y", hls.output}
+      ])
     end)
   end
 

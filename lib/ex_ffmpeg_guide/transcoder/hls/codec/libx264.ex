@@ -45,4 +45,14 @@ defimpl ExFfmpegGuide.Transcoder.Hls.Codec, for: ExFfmpegGuide.Transcoder.Hls.Co
   def preset_for_cpu_level(_, 4) do
     "fast"
   end
+
+  def pixel_format(_) do
+    "yuv420p"
+  end
+
+  def extra_arguments(_) do
+    [
+      {"tune", "zerolatency"}
+    ]
+  end
 end

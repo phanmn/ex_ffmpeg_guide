@@ -5,11 +5,26 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilderTest do
   alias ExFfmpegGuide.Transcoder.Hls
 
   test "empty" do
-    assert [{"var_stream_map", "\"\""}] =
+    assert [
+             {"var_stream_map", "\"\""},
+             {"f", "hls"},
+             {"hls_time", 1},
+             {"hls_list_size", 25},
+             {"hls_delete_threshold", 50},
+             {"hls_flags", "delete_segments+independent_segments+program_date_time"},
+             {"hls_segment_filename", "stream-%03d.ts"},
+             {"segment_format_options", "mpegts_flags=mpegts_copyts=1"},
+             {"tune", "zerolatency"},
+             {"pix_fmt", "yuv420p"},
+             {"sc_threshold", 0},
+             {"master_pl_name", "stream.m3u8"},
+             {"y", "live/%v/stream.m3u8"}
+           ] =
              %Hls{
                variants: [],
                codec: %Hls.Codec.Libx264{},
-               latency_level: Hls.LatencyLevel.list() |> Enum.at(0)
+               latency_level: Hls.LatencyLevel.list() |> Enum.at(0),
+               output: "live/%v/stream.m3u8"
              }
              |> Hls.FlagsBuilder.build()
   end
@@ -59,7 +74,8 @@ defmodule ExFfmpegGuide.Transcoder.Hls.FlagsBuilderTest do
                  }
                ],
                codec: %Hls.Codec.Libx264{},
-               latency_level: Hls.LatencyLevel.list() |> Enum.at(0)
+               latency_level: Hls.LatencyLevel.list() |> Enum.at(0),
+               output: "live/%v/stream.m3u8"
              }
              |> Hls.FlagsBuilder.build()
              |> tap(fn flags ->
