@@ -9,7 +9,6 @@ defimpl ExFfmpegGuide.Transcoder.Input, for: ExFfmpegGuide.Transcoder.Input.Rtmp
 
   def to_args(rtmp) do
     [
-      {"f", "flv"},
       {"i", rtmp.url}
     ]
   end
