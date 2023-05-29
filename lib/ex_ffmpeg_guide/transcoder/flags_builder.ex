@@ -109,7 +109,7 @@ defmodule ExFfmpegGuide.Transcoder.FlagsBuilder do
        }) do
     filters =
       [
-        "scale=#{video_size |> video_size_string()}",
+        "\"scale=#{video_size |> video_size_string()}\"",
         codec |> Codec.extra_filters()
       ]
       |> Enum.filter(fn filter -> filter != "" and filter != nil end)
