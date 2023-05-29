@@ -12,7 +12,6 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilderTest do
              {"hls_list_size", 25},
              {"hls_delete_threshold", 50},
              {"hls_flags", "delete_segments+independent_segments+program_date_time"},
-             {"hls_segment_filename", "stream-%03d.ts"},
              {"segment_format_options", "mpegts_flags=mpegts_copyts=1"},
              {"tune", "zerolatency"},
              {"pix_fmt", "yuv420p"},

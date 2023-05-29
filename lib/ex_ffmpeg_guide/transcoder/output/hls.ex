@@ -6,7 +6,7 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls do
     field(:codec, Hls.Codec, enforce: true)
     field(:latency_level, Hls.LatencyLevel, enforce: true)
     field(:master_pl_name, :string, default: "stream.m3u8")
-    field(:segment_name, :string, default: "stream-%03d.ts")
+    field(:segment_name, :string, default: nil)
     field(:output, :string, enforce: true)
 
     field(:flags, [:string],

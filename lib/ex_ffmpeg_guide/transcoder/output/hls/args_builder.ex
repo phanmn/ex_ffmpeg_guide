@@ -38,6 +38,13 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
         {"master_pl_name", hls.master_pl_name},
         {"y", hls.output}
       ])
+      |> Enum.filter(fn
+        {_, nil} ->
+          false
+
+        _ ->
+          true
+      end)
     end)
   end
 
