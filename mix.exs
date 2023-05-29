@@ -21,7 +21,6 @@ defmodule ExFfmpegGuide.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:typed_struct, "~> 0.3.0"},
       {:construct, "~> 3.0.1"}
     ]
   end
