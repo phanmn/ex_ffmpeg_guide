@@ -149,9 +149,9 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
 
   defp video_size_string(%{width: width, height: height}) do
     cond do
-      width != 0 and height != 0 -> "#{width}:#{height}"
-      width != 0 -> "#{width}:-2"
-      height != 0 -> "-2:#{height}"
+      width != 0 and height != 0 -> "'min(#{width},iw)':'min(#{height},ih)'"
+      width != 0 -> "'min(#{width},iw)':-2"
+      height != 0 -> "-2:'min(#{height},ih)'"
       true -> ""
     end
   end
