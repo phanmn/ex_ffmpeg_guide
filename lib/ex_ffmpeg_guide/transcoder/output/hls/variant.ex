@@ -11,6 +11,7 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.Variant do
     field :video_size do
       field :width, :integer, enforce: true
       field :height, :integer, enforce: true
+      field :up_scaling, :boolean, default: false
     end
   end
 
