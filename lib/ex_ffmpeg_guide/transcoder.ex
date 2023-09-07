@@ -9,9 +9,6 @@ defmodule ExFfmpegGuide.Transcoder do
 
   def to_args(%__MODULE__{input: input, outputs: outputs}) do
     [
-      {"hide_banner", ""},
-      {"loglevel", "warning"},
-      {"fflags", "+genpts"},
       {"flags", "+cgop"}
     ]
     |> Kernel.++(
