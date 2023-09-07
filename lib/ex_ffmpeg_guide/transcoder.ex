@@ -8,8 +8,16 @@ defmodule ExFfmpegGuide.Transcoder do
   end
 
   def to_args(%__MODULE__{input: input, outputs: outputs}) do
-    input
-    |> Input.to_args()
+    [
+      {"hide_banner", ""},
+      {"loglevel", "warning"},
+      {"fflags", "+genpts"},
+      {"flags", "+cgop"}
+    ]
+    |> Kernel.++(
+      input
+      |> Input.to_args()
+    )
     |> Kernel.++(
       outputs
       |> Enum.map(&Output.to_args/1)
