@@ -11,7 +11,7 @@ defimpl ExFfmpegGuide.Transcoder.Output.Hls.Codec, for: ExFfmpegGuide.Transcoder
     [
       # How often the encoder checks the bitrate in order to meet average/max values
       {"x264-params:v:#{index}", "\"scenecut=0:open_gop=0\""},
-      {"bufsize:v:#{index}", variant |> Variant.buffer_size()},
+      {"bufsize:v:#{index}", "#{variant |> Variant.buffer_size()}k"},
       {"profile:v:#{index}", "high"}
     ]
   end
