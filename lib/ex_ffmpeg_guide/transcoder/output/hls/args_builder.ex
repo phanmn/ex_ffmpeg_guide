@@ -29,6 +29,7 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
         {"hls_delete_threshold", hls.latency_level.segment_count * 2},
         {"hls_flags", hls.flags |> Enum.join("+")},
         {"hls_segment_filename", hls.segment_name},
+        {"hls_key_info_file", hls.key_info_file},
         {"segment_format_options", "mpegts_flags=mpegts_copyts=1"}
       ])
       |> Kernel.++(codec |> Codec.extra_arguments())
