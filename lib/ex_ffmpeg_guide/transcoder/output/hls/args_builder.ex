@@ -26,7 +26,6 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
         {"f", "hls"},
         {"hls_time", hls.latency_level.seconds_per_segment},
         {"hls_list_size", hls.latency_level.segment_count},
-        {"hls_delete_threshold", hls.latency_level.segment_count * 2},
         {"hls_flags", hls.flags |> Enum.join("+")},
         {"hls_segment_filename", hls.segment_name},
         {"hls_key_info_file", hls.key_info_file},
@@ -45,6 +44,13 @@ defmodule ExFfmpegGuide.Transcoder.Output.Hls.ArgsBuilder do
 
         _ ->
           true
+      end)
+      |> then(fn flags ->
+        if hls.latency_level.segment_count > 0 do
+          flags ++ [{"hls_delete_threshold", hls.latency_level.segment_count * 2}]
+        else
+          flags
+        end
       end)
     end)
   end
